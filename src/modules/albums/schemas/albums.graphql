@@ -9,7 +9,7 @@ type Album {
     name: String
     released: Int
     artists: [Artist]
-    "bands: [Band]"
+    bands: [Band]
     tracks: [Track]
     genres: [Genre]
     image: String

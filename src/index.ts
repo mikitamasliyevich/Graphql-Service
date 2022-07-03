@@ -1,10 +1,10 @@
 import { loadFiles } from "@graphql-tools/load-files";
-import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import { ApolloServerPluginLandingPageGraphQLPlayground, AuthenticationError } from "apollo-server-core";
 import express from 'express';
 import { ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv';
-import {artistsResolver, genresResolver, albumsResolver, tracksResolver} from './modules/resolvers';
-import {ArtistsService, GenresService, AlbumsService, TracksService} from './modules/services'
+import {artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver} from './modules/resolvers';
+import {ArtistsService, GenresService, AlbumsService, TracksService, BandsService, UsersService} from './modules/services'
 
 async function startApolloServer(){
   dotenv.config();
@@ -13,7 +13,7 @@ async function startApolloServer(){
 
   const server = new ApolloServer({
     typeDefs: await loadFiles("src/**/*.graphql"),
-    resolvers: [artistsResolver, genresResolver, albumsResolver, tracksResolver],
+    resolvers: [artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver],
     csrfPrevention: true,
     cache: "bounded",
     dataSources: () => {
@@ -21,10 +21,17 @@ async function startApolloServer(){
         artistsService: new ArtistsService(),
         genresService: new GenresService(),
         albumsService: new AlbumsService(),
-        tracksService: new TracksService()
+        tracksService: new TracksService(),
+        bandsService: new BandsService(),
+        usersService: new UsersService(),
       };
     },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
+    context: ({ req }) => {
+      const token = req.headers.authorization;
+      // if (!token) throw new AuthenticationError("you must be logged in");
+      return { token };
+    }
   });
 
   await server.start();
