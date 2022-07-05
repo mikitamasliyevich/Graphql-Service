@@ -3,6 +3,11 @@ type Query {
     user(id: ID!): User
 }
 
+type Login {
+email: String!, 
+password: String!
+}
+
 type JWT {
     jwt: String!
 }
@@ -10,8 +15,24 @@ type JWT {
 type User {
     id: ID!
     firstName: String
-    secondName: String
+    lastName: String
     password: String
     email: String!
 }
 
+
+type Mutation {
+    registerUser(     
+    firstName: String
+    lastName: String
+    password: String
+    email: String!
+    ) : User!
+}
+
+type Mutation {
+    getJWT(
+    email: String!, 
+    password: String!
+    ): JWT!
+}

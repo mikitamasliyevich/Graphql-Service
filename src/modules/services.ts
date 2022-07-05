@@ -3,6 +3,6 @@ export * from './genres/services/genres.services'
 export * from './albums/services/albums.services'
 export * from './tracks/services/tracks.services'
 export * from './bands/services/bands.services'
-export * from './users/services/service'
+export * from './users/services/users.service'
 
 
