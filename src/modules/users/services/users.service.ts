@@ -6,27 +6,21 @@ export class UsersService extends RESTDataSource {
         this.baseURL = process.env.USERS_URL;
       }
 
-      // willSendRequest(request: RequestOptions) {
-      //   console.log('this.context.token', this.context.token)
-      //   request.headers.set("authorization", `Bearer ${this.context.token}`);
-      // }
-
       getUser(id: string) {
         return this.get(`/${id}`);
       }
 
-      async registerUser(parent: any, args: any, context: any) {
-        const newUser = args
+      getJWT(email: string, password: string) {
+        return this.post("/login", {
+          email,
+          password,
+        });
+      }
+
+      async registerUser(parent: any, args: any) {
+        const newUser = args.input
         const data = await this.post("/register", {...newUser})
         data.id = data._id
-        return data
-      }
-      
-      async getJWT(parent: any, args: any, context: any) {
-        const authorization = args
-        const data = await this.post("/login", {...authorization})
-        this.context.token = data.jwt
-        process.env.jwt = data.jwt
         return data
       }
 }

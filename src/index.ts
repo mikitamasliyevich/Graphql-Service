@@ -4,7 +4,8 @@ import express from 'express';
 import { ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv';
 import {artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver} from './modules/resolvers';
-import {ArtistsService, GenresService, AlbumsService, TracksService, BandsService, UsersService} from './modules/services'
+import {UsersService} from './modules/users/services/users.service'
+import {GlobalService} from './modules/globalService'
 
 async function startApolloServer(){
   dotenv.config();
@@ -18,18 +19,17 @@ async function startApolloServer(){
     cache: "bounded",
     dataSources: () => {
       return {
-        artistsService: new ArtistsService(),
-        genresService: new GenresService(),
-        albumsService: new AlbumsService(),
-        tracksService: new TracksService(),
-        bandsService: new BandsService(),
+        artistsService: new GlobalService(process.env.ARTISTS_URL as string),
+        genresService: new GlobalService(process.env.GENRES_URL as string),
+        albumsService: new GlobalService(process.env.ALBUMS_URL as string),
+        tracksService: new GlobalService(process.env.TRACKS_URL as string),
+        bandsService: new GlobalService(process.env.BANDS_URL as string),
         usersService: new UsersService(),
       };
     },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
     context: ({ req }) => {
-      const token = req.headers.authorization || process.env.jwt
-      // if (!token) throw new AuthenticationError("you must be logged in");
+      const token = req.headers.authorization || ""
       return { token };
     }
   });

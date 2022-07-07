@@ -1,38 +1,27 @@
 type Query {
-    jwt(email: String!, password: String!): JWT
     user(id: ID!): User
+    jwt(email: String!, password: String!): JWT
 }
 
-type Login {
-email: String!, 
-password: String!
+type Mutation {
+    registerUser(input: UserInput) : User!
 }
 
-type JWT {
-    jwt: String!
+input UserInput {
+  firstName: String!
+  lastName: String!
+  password: String!
+  email: String!
 }
 
 type User {
     id: ID!
     firstName: String
-    lastName: String
+    secondName: String
     password: String
     email: String!
 }
 
-
-type Mutation {
-    registerUser(     
-    firstName: String
-    lastName: String
-    password: String
-    email: String!
-    ) : User!
-}
-
-type Mutation {
-    getJWT(
-    email: String!, 
-    password: String!
-    ): JWT!
+type JWT {
+    jwt: String!
 }

@@ -1,32 +1,21 @@
 export const genresResolver = {
     Query: {
         genres: (_: any, __: any, { dataSources }: any) =>
-          dataSources.genresService.getGenres(),
+          dataSources.genresService.getItems(),
         genre: (_: any, { id }: { id: string }, { dataSources }: any) =>
-          dataSources.genresService.getGenre(id),
+          dataSources.genresService.getItem(id),
       },
 
     Mutation: {
       createGenre: (parent: any, args: any, { dataSources }: any) => 
-        dataSources.genresService.createGenre(parent, args),
-      updateGenre: (parent: any, args: any, { dataSources }: any) => 
-        dataSources.genresService.updateGenre(parent, args),
+        dataSources.genresService.createItem(parent, args),
+      updateGenre: ( parent: any, args: any, { dataSources }: any) => 
+        dataSources.genresService.updateItem(parent, args),
       deleteGenre: (parent: any, args: any, { dataSources }: any) => 
-        dataSources.genresService.deleteGenre(parent, args),
+        dataSources.genresService.deleteItem(parent, args),
+    },
+
+    Genre: {
+      id: ({ _id }: { _id: string }) => _id,
     }
-    
 }
-
-// query getGenre($id: ID!){
-//   genre(id: $id){
-//     name
-//     description
-//    }
-// }
-
-
-// mutation CreateReviewForEpisode($id: ID!){
-//   deleteGenre(id: $id){
-//     id
-//    }
-// }
