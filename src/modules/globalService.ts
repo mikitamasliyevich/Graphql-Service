@@ -1,4 +1,4 @@
-import { RESTDataSource } from "apollo-datasource-rest";
+import { RESTDataSource, RequestOptions } from "apollo-datasource-rest";
 
 export class GlobalService extends RESTDataSource {
     constructor(url: string) {
@@ -6,10 +6,10 @@ export class GlobalService extends RESTDataSource {
         this.baseURL = url;
       }
 
-      willSendRequest(request: any) {
+      willSendRequest(request: RequestOptions) {
         request.headers.set("Authorization", `Bearer ${this.context.token}`)
         }
-        
+      
       getItems() {
         return this.get("/").then((res) =>
           res.items.map((item: any) => ({
@@ -19,7 +19,7 @@ export class GlobalService extends RESTDataSource {
       }
 
       getItem(id: string) {
-        return this.get(`/${id}`);
+         return this.get(`/${id}`);
       }
 
       async createItem(parent: any, args: any) {
@@ -35,7 +35,6 @@ export class GlobalService extends RESTDataSource {
       }
 
       getItemsByIds(items: Array<string>) {
-        return Promise.all(items.map((id: string) => this.getItem(id))
-        )
+        return Promise.all(items.map((id: string) => this.getItem(id)))
      }
 }

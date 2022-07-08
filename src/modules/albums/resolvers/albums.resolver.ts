@@ -28,10 +28,10 @@ export const albumsResolver = {
         { dataSources }: any
       ) => dataSources.bandsService.getItemsByIds(bandsIds),
       tracks: (
-        { trackIds  }: { trackIds : Array<string> },
+        { tracksIds  }: { tracksIds : Array<string> },
         _: any,
         { dataSources }: any
-      ) => dataSources.tracksService.getItemsByIds(trackIds),
+      ) => dataSources.tracksService.getItemsByIds(tracksIds),
       genres: (
       { genresIds  }: { genresIds : Array<string> },
       _: any,

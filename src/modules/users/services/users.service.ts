@@ -6,6 +6,10 @@ export class UsersService extends RESTDataSource {
         this.baseURL = process.env.USERS_URL;
       }
 
+      willSendRequest(request: RequestOptions) {
+        request.headers.set("Authorization", ` Bearer ${this.context.token}`)
+        }
+
       getUser(id: string) {
         return this.get(`/${id}`);
       }
@@ -18,9 +22,6 @@ export class UsersService extends RESTDataSource {
       }
 
       async registerUser(parent: any, args: any) {
-        const newUser = args.input
-        const data = await this.post("/register", {...newUser})
-        data.id = data._id
-        return data
+        return await this.post("/register", {...args.input})
       }
 }

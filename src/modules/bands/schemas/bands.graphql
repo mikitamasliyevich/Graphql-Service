@@ -3,12 +3,26 @@ type Query {
   band(id: ID!): Band
 }
 
+type Mutation {
+  createBand(input: InputBand!): Band!
+  updateBand(id: String!, input: InputBand!): Band!
+  deleteBand(id: ID!): DEL
+}
+
 type Band {
     id: ID!
     name: String
     origin: String
-    members: [Member]
+    "members: [Member]"
     website: String
     genres: [Genre]
+}
+
+input InputBand {
+  name: String
+  origin: String
+  "bandsIds: [InputMember]"
+  website: String
+  genresIds: [ID]
 }
 

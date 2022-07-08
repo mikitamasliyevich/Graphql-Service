@@ -3,9 +3,10 @@ import { ApolloServerPluginLandingPageGraphQLPlayground, AuthenticationError } f
 import express from 'express';
 import { ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv';
-import {artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver} from './modules/resolvers';
-import {UsersService} from './modules/users/services/users.service'
-import {GlobalService} from './modules/globalService'
+import { artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver, favouritesResolver } from './modules/resolvers';
+import { UsersService } from './modules/users/services/users.service';
+import { FavouriteService } from "./modules/favourites/services/favourites.service";
+import { GlobalService } from './modules/globalService';
 
 async function startApolloServer(){
   dotenv.config();
@@ -14,7 +15,7 @@ async function startApolloServer(){
 
   const server = new ApolloServer({
     typeDefs: await loadFiles("src/**/*.graphql"),
-    resolvers: [artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver],
+    resolvers: [artistsResolver, genresResolver, albumsResolver, tracksResolver, bandsResolver, usersResolver, favouritesResolver],
     csrfPrevention: true,
     cache: "bounded",
     dataSources: () => {
@@ -25,6 +26,7 @@ async function startApolloServer(){
         tracksService: new GlobalService(process.env.TRACKS_URL as string),
         bandsService: new GlobalService(process.env.BANDS_URL as string),
         usersService: new UsersService(),
+        favouritesService: new FavouriteService()
       };
     },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
