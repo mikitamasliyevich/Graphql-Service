@@ -5,7 +5,7 @@ type Query {
 
 type Mutation {
   createArtist(input: InputArtist!): Artist
-  updateArtist(id: String!, input: InputArtist!): Artist
+  updateArtist(id: ID!, input: InputArtist!): Artist
   deleteArtist(id: ID!): DEL
 }
 

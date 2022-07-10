@@ -5,14 +5,14 @@ type Query {
 
 type Mutation {
   createTrack(input: InputTrack!): Track
-  updateTrack(id: String!, input: InputTrack!): Track
+  updateTrack(id: ID!, input: InputTrack!): Track
   deleteTrack(id: ID!): DEL
 }
 
 
 type Track {
     id: ID!
-    title: String!
+    title: String
     album: Album
     artists: [Artist]
     bands: [Band]
@@ -22,7 +22,7 @@ type Track {
 }
 
 input InputTrack {
-    title: String
+    title: String!
     albumId: InputAlbum
     artistsIds: [ID]
     bandsIds: [ID]

@@ -16,6 +16,5 @@ export const usersResolver = {
     },
     User: {
       id: ({ _id }: { _id: string }) => _id,
-      secondName: ({ lastName }: { lastName: String }) => lastName
     },
   }

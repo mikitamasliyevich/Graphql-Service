@@ -6,7 +6,7 @@ type Query {
 
 type Mutation {
   createAlbum(input: InputAlbum!): Album
-  updateAlbum(id: String!, input: InputAlbum!): Album
+  updateAlbum(id: ID!, input: InputAlbum!): Album
   deleteAlbum(id: ID!): DEL
 }
 

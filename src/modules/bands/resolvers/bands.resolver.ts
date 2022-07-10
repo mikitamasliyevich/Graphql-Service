@@ -15,13 +15,31 @@ export const bandsResolver = {
           dataSources.bandsService.deleteItem(parent, args),
       },
 
-      Album: {
+      Band: {
         id: ({ _id }: { _id: string }) => _id,
         genres: (
           { genresIds  }: { genresIds : Array<string> },
           _: any,
           { dataSources }: any
         ) => dataSources.genresService.getItemsByIds(genresIds),
+        members: (
+          { members }: { members: any },
+          _: any,
+          { dataSources }: any
+        ) =>
+          Promise.all(
+            members.map(({ artistsIds }: { artistsIds: string }) =>
+              dataSources.artistsService.getItem(artistsIds)
+            )
+          ).then((res) =>
+            res.map((item, index) => {
+              return {
+                firstName: item.firstName,
+                instrument: members[index].instrument,
+                years: members[index].years,
+              };
+            })
+          ),
         
       }
 }
